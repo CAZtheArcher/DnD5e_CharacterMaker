@@ -47,13 +47,13 @@ const CharacterSchema = new mongoose.Schema({
   },
   spells: {
     type: String[String[String]],
-    required: true,
+    required: false,
     trim: true,
     set: setName,
   },
   items: {
     type: String[String],
-    required: true,
+    required: false,
     trim: true,
     set: setName,
   },
