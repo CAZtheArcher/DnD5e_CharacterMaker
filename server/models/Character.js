@@ -85,5 +85,5 @@ CharacterSchema.statics.toAPI = (doc) => ({
   cha: doc.cha,
 });
 
-const DomoModel = mongoose.model('Domo', DomoSchema);
-module.exports = DomoModel;
+const CharacterModel = mongoose.model('Character', CharacterSchema);
+module.exports = CharacterModel;
