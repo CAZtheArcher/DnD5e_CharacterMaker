@@ -15,6 +15,11 @@ const CharacterSchema = new mongoose.Schema({
     min: 0,
     required: true,
   },
+  race: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   class: {
     type: String,
     required: true,
