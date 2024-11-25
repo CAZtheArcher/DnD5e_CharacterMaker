@@ -30,6 +30,11 @@ const CharacterSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  size: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   str: {
     type: Number,
     min: 0,

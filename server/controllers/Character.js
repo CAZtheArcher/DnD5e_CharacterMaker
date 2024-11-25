@@ -5,8 +5,8 @@ const Char = models.Character;
 const makerPage = async (req, res) => res.render('app');
 
 const makeCharacter = async (req, res) => {
-    if (!req.body.name || !req.body.age || !req.body.power) {
-      return res.status(400).json({ error: 'Name, age, and power level are required!' });
+    if (!req.body.name || !req.body.age || !req.body.level || !req.body.race || !req.body.class) {
+      return res.status(400).json({ error: 'Name, age, and race, class, and level are all required!' });
     }
   
     const charData = {
@@ -17,7 +17,7 @@ const makeCharacter = async (req, res) => {
     };
   
     try {
-      const newChar = new Domo(charData);
+      const newChar = new Character(charData);
       await newChar.save();
       return res.status(201).json({ name: newChar.name, age: newChar.age, power: newChar.power });
     } catch (err) {
