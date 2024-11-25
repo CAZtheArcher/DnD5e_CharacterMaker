@@ -8,11 +8,16 @@ const makeCharacter = async (req, res) => {
     if (!req.body.name || !req.body.age || !req.body.level || !req.body.race || !req.body.class) {
       return res.status(400).json({ error: 'Name, age, and race, class, and level are all required!' });
     }
+    if (!req.body.statGenMethod) {
+      return res.status(400).json({ error: 'Method for generating stats is required!' });
+    }
   
     const charData = {
       name: req.body.name,
       age: req.body.age,
-      power: req.body.power,
+      level: req.body.level,
+      race: req.body.race,
+      class: req.body.class,
       owner: req.session.account._id,
     };
   
