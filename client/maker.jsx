@@ -35,6 +35,22 @@ const handleRemove = (e, onDomoRemoved) => {
     return false;
 };
 
+const DropdownInFormExample = (props) => {
+    return(
+        <form id="charForm"
+            onSubmit={(e) => handleDomo(e, props.triggerReload)}
+            name="exForm"
+        >
+            <label htmlFor="dropdownSelect">Choose 1: </label>
+            <select name="Example dropdown" id="ExampleDropdownMenu">
+                <option value="1">Example option 1</option>
+                <option value="2">Example option 2</option>
+                <option value="3">Example option 3</option>
+            </select>
+        </form>
+    );
+};
+
 const DomoForm = (props) => {
     return(
         <form id="domoForm"
