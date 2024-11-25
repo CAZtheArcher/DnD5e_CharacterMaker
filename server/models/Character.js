@@ -15,6 +15,11 @@ const CharacterSchema = new mongoose.Schema({
     min: 0,
     required: true,
   },
+  class: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   str: {
     type: Number,
     min: 0,
@@ -49,19 +54,16 @@ const CharacterSchema = new mongoose.Schema({
     type: String[String[String]],
     required: false,
     trim: true,
-    set: setName,
   },
   items: {
     type: String[String],
     required: false,
     trim: true,
-    set: setName,
   },
   proficiencies: {
     type: String[String],
     required: true,
     trim: true,
-    set: setName,
   },
   owner: {
     type: mongoose.Schema.ObjectId,
