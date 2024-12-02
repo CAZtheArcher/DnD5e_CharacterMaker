@@ -86,13 +86,13 @@ const DropdownInFormExample = (props) => {
 const CharForm = (props) => {
     const raceNodes = races.map(races => {
         return(
-            <option key={races.id} value="">{races.name}</option>
+            <option key={races.id} value={races.name}>{races.name}</option>
         );
     });
 
     return(
         <form id="charForm"
-            onSubmit={(e) => handleDomo(e, props.triggerReload)}
+            onSubmit={(e) => handleCharacter(e, props.triggerReload)}
             name="charForm"
             action="/maker"
             method="POST"
@@ -129,6 +129,22 @@ const DomoForm = (props) => {
             <label htmlFor="power">PowLVL: </label>
             <input id="domoPower" type="number" min="0" name="power" placeholder='power level' />
             <input className="makeDomoSubmit" type="submit" value="Make Domo" />
+        </form>
+    );
+};
+
+const RemoveCharForm = (props) => {
+    return(
+        <form id="charRemoveForm"
+        onSubmit={(e) => handleCharRemove(e, props.triggerReload)}
+            name="charRemoveForm"
+            action="/deleteChar"
+            method="POST"
+            className="charRemoveForm"
+        >
+            <label htmlFor="name">Name: </label>
+            <input id="charName" type="text" name="name" placeholder="Character to Remove" />
+            <input className="makeCharSubmit" type="submit" value="Remove Char" />
         </form>
     );
 };
