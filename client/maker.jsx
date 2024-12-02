@@ -35,6 +35,38 @@ const handleRemove = (e, onDomoRemoved) => {
     return false;
 };
 
+const handleCharacter = (e, onCharAdded) => {
+    e.preventDefault();
+    helper.hideError();
+
+    const name = e.target.querySelector('#domoName').value;
+    const age = e.target.querySelector('#domoAge').value;
+    const power = e.target.querySelector('#domoPower').value;
+
+    if(!name || !age || !power) {
+        helper.handleError('All fields are required!');
+        return false;
+    }
+
+    helper.sendPost(e.target.action, { name, age, power }, onCharAdded);
+    return false;
+};
+
+const handleCharRemove = (e, onDomoRemoved) => {
+    e.preventDefault();
+    helper.hideError();
+
+    const name = e.target.querySelector("#domoName").value;
+
+    if(!name) {
+        helper.handleError('Name field is required!');
+        return false;
+    }
+
+    helper.sendPost(e.target.action, { name }, onDomoRemoved);
+    return false;
+};
+
 const DropdownInFormExample = (props) => {
     return(
         <form id="charForm"
@@ -47,6 +79,35 @@ const DropdownInFormExample = (props) => {
                 <option value="2">Example option 2</option>
                 <option value="3">Example option 3</option>
             </select>
+        </form>
+    );
+};
+
+const CharForm = (props) => {
+    const raceNodes = races.map(races => {
+        return(
+            <option key={races.id} value="">{races.name}</option>
+        );
+    });
+
+    return(
+        <form id="charForm"
+            onSubmit={(e) => handleDomo(e, props.triggerReload)}
+            name="charForm"
+            action="/maker"
+            method="POST"
+            className="charForm"
+        >
+            <label htmlFor="name">Name: </label>
+            <input id="charName" type="text" name="name" placeholder="Character Name" />
+            <label htmlFor="age">Age: </label>
+            <input id="charAge" type="number" min="0" name="age" placeholder='age' />
+            <label htmlFor="dropdownSelect">Race: </label>
+            <select name="Race dropdown" id="RaceDropdownMenu">
+                {raceNodes}
+            </select>
+
+            <input className="makeCharSubmit" type="submit" value="Make Char" />
         </form>
     );
 };
