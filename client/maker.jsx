@@ -3,6 +3,12 @@ const React = require('react');
 const { useState, useEffect } = React;
 const { createRoot } = require('react-dom/client');
 
+const apiURL = "https://www.dnd5eapi.co";
+
+const raceDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/races"));
+const spellDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/spells"));
+const skillDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/skills"));
+
 const handleDomo = (e, onDomoAdded) => {
     e.preventDefault();
     helper.hideError();
@@ -52,18 +58,18 @@ const handleCharacter = (e, onCharAdded) => {
     return false;
 };
 
-const handleCharRemove = (e, onDomoRemoved) => {
+const handleCharRemove = (e, onCharRemoved) => {
     e.preventDefault();
     helper.hideError();
 
-    const name = e.target.querySelector("#domoName").value;
+    const name = e.target.querySelector("#charName").value;
 
     if(!name) {
         helper.handleError('Name field is required!');
         return false;
     }
 
-    helper.sendPost(e.target.action, { name }, onDomoRemoved);
+    helper.sendPost(e.target.action, { name }, onCharRemoved);
     return false;
 };
 
@@ -84,9 +90,26 @@ const DropdownInFormExample = (props) => {
 };
 
 const CharForm = (props) => {
-    const raceNodes = races.map(races => {
+    const raceNodes = raceDataset["results"].map(races => {
         return(
-            <option key={races.id} value={races.name}>{races.name}</option>
+            <option key={races.index} value={races.index}>{races.name}</option>
+        );
+    });
+    const skillNodes = skillDataset["results"].map(skills => {
+        return(
+            <div key={skills.index}>
+                <input type="checkbox" id="skillSelect" name={skills.name} value={skills.index}/>
+                <label htmlFor={skills.name}>{skills.name}</label>
+            </div>
+        );
+    });
+    const spellNodes = spellDataset["results"].map(spells => {
+        return(
+            <div key={spells.index}>
+                <input type="checkbox" id="spellSelect" name={spells.name} value={spells.index}/>
+                <label htmlFor={spells.name}>{spells.name}</label>
+                <label htmlFor={spells.name}>Level: {spells.level}</label>
+            </div>
         );
     });
 
@@ -102,10 +125,14 @@ const CharForm = (props) => {
             <input id="charName" type="text" name="name" placeholder="Character Name" />
             <label htmlFor="age">Age: </label>
             <input id="charAge" type="number" min="0" name="age" placeholder='age' />
+            <label htmlFor="level">Level: </label>
+            <input id="charLevel" type="number" min="1" max="20" name="level" placeholder='level' />
             <label htmlFor="dropdownSelect">Race: </label>
             <select name="Race dropdown" id="RaceDropdownMenu">
                 {raceNodes}
             </select>
+            <h3>Skill Proficiencies</h3>
+            {skillNodes}
 
             <input className="makeCharSubmit" type="submit" value="Make Char" />
         </form>
@@ -199,6 +226,44 @@ const DomoList = (props) => {
     return(
         <div className="domoList">
             {domoNodes}
+        </div>
+    );
+};
+const CharList = (props) => {
+    const [chars, setChars] = useState(props.character);
+
+    useEffect(() => {
+        const loadCharsFromServer = async () => {
+            const response = await fetch('/getChars');
+            const data = await response.json();
+            setChars(data.character);
+        };
+        loadCharsFromServer();
+    }, [props.reloadChars]);
+
+    if(chars.length === 0){
+        return (
+            <div className="charList">
+                <h3 className="emptyChar">No Characters Yet!</h3>
+            </div>
+        );
+    }
+
+    const charNodes = chars.map(char => {
+        return(
+            <div key={char.id} className="char">
+                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
+                <h3 className="charName">Name: {char.name}</h3>
+                <h3 className="charLevel">Level: {char.level}</h3>
+                <h3 className="charRace">Race: {char.race}</h3>
+                <h3 className="charClass">Class: {char.class}</h3>
+            </div>
+        );
+    });
+
+    return(
+        <div className="charList">
+            {charNodes}
         </div>
     );
 };
