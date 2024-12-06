@@ -7,6 +7,6 @@ TO DO:
  +  create methods for random stat generation (4d6 drop lowest, point buy, & standard array)
   - able to use an array w/ 6 spaces to act as "holders", and use JavaScript to eliminate that as an option for other drobdown buttons.
   - ALT: send error mesage when lacking a stat variable / overlapping variables ( I.E. : attempting to assign tow numbers to STR value).
- +  Step - by Step functionality
+ +  Step - by Step functionality - form adds new things as you submit
   - 
  +  Remove Domo from the Document

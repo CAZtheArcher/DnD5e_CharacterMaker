@@ -92,6 +92,9 @@ const DropdownInFormExample = (props) => {
 };
 
 const CharForm = (props) => {
+    const [formInfo, setFormInfo] = useState({});
+    // use <page1 /> and <page2 /> 
+
     const raceNodes = raceDataset["results"].map(races => {
         return(
             <option key={races.index} value={races.index}>{races.name}</option>
