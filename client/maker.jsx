@@ -4,9 +4,11 @@ const { useState, useEffect } = React;
 const { createRoot } = require('react-dom/client');
 
 const apiURL = "https://www.dnd5eapi.co";
+const open5eURL = "https://api.open5e.com/";
 
-const raceDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/races"));
-const spellDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/spells"));
+const raceDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/races/"));
+const backgroundDataset = JSON.parse(await fetch("https://api.open5e.com/backgrounds/"));
+const spellDataset = JSON.parse(await fetch("https://api.open5e.com/spells/"));
 const skillDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/skills"));
 
 const handleDomo = (e, onDomoAdded) => {
@@ -95,6 +97,11 @@ const CharForm = (props) => {
             <option key={races.index} value={races.index}>{races.name}</option>
         );
     });
+    const backgroundNodes = backgroundDataset["results"].map(bkgrnd => {
+        return(
+            <option key={bkgrnd.name} value={bkgrnd.name}>{bkgrnd.name}</option>
+        );
+    });
     const skillNodes = skillDataset["results"].map(skills => {
         return(
             <div key={skills.index}>
@@ -130,6 +137,9 @@ const CharForm = (props) => {
             <label htmlFor="dropdownSelect">Race: </label>
             <select name="Race dropdown" id="RaceDropdownMenu">
                 {raceNodes}
+            </select>
+            <select name="Background dropdown" id="BackgroundDropdownMenu">
+                {backgroundNodes}
             </select>
             <h3>Skill Proficiencies</h3>
             {skillNodes}
@@ -229,6 +239,7 @@ const DomoList = (props) => {
         </div>
     );
 };
+
 const CharList = (props) => {
     const [chars, setChars] = useState(props.character);
 
@@ -268,7 +279,7 @@ const CharList = (props) => {
     );
 };
 
-const App = () => {
+const DomoApp = () => {
     const [reloadDomos, setReloadDomos] = useState(false);
 
     return(
@@ -281,6 +292,24 @@ const App = () => {
             </div>
             <div id="domos">
                 <DomoList domos={[]} reloadDomos={reloadDomos} />
+            </div>
+        </div>
+    );
+};
+
+const App = () => {
+    const [reloadChars, setReloadChars] = useState(false);
+
+    return(
+        <div>
+            <div id="makeChar">
+                <CharForm triggerReload={() => setReloadChars(!reloadChars)} />
+            </div>
+            <div id="makeChar">
+                <RemoveCharForm triggerReload={() => setReloadChars(!reloadChars)} />
+            </div>
+            <div id="characters">
+                <CharList chars={[]} reloadChars={reloadChars} />
             </div>
         </div>
     );

@@ -2,9 +2,11 @@ const controllers = require('./controllers');
 const mid = require('./middleware');
 
 const router = (app) => {
-  app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos);
+  app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos); //domo line - delete or edit
+  app.get('/getChars', mid.requiresLogin, controllers.Character.getCharacter);
   
-  app.post('/deleteDomo', mid.requiresLogin, controllers.Domo.deleteDomo);
+  app.post('/deleteDomo', mid.requiresLogin, controllers.Domo.deleteDomo); //domo line - delete or edit
+  app.post('/deleteChar', mid.requiresLogin, controllers.Character.deleteCharacter);
 
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
@@ -13,8 +15,8 @@ const router = (app) => {
 
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
 
-  app.get('/maker', mid.requiresLogin, controllers.Domo.makerPage);
-  app.post('/maker', mid.requiresLogin, controllers.Domo.makeDomo);
+  app.get('/maker', mid.requiresLogin, controllers.Domo.makerPage); //domo line - delete or edit
+  app.post('/maker', mid.requiresLogin, controllers.Domo.makeDomo); //domo line - delete or edit
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
