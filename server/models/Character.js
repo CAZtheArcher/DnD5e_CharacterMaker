@@ -25,6 +25,11 @@ const CharacterSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  background: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   class: {
     type: String,
     required: true,
