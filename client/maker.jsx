@@ -2,6 +2,7 @@ const helper = require('./helper.js');
 const React = require('react');
 const { useState, useEffect } = React;
 const { createRoot } = require('react-dom/client');
+const { select } = require('underscore');
 
 const apiURL = "https://www.dnd5eapi.co";
 const open5eURL = "https://api.open5e.com/";
@@ -92,9 +93,29 @@ const DropdownInFormExample = (props) => {
     );
 };
 
+const SkillInfo = (props) => {
+    //variables: race, bkgrnd, dnd5eClass
+    const skillNodes = skillDataset["results"].map(skills => {
+        if(props.dnd5eClass.prof_skills.includes(skills.name) || props.race.prof_skills.includes(skills.name) || props.bkgrnd.prof_skills.includes(skills.name)){
+            return(
+                <div key={skills.index}>
+                    <input type="checkbox" id="skillSelect" name={skills.name} value={skills.index}/>
+                    <label htmlFor={skills.name}>{skills.name}</label>
+                </div>
+            );
+        }
+    });
+    return(
+        
+    );
+};
+
 const CharForm = (props) => {
     const [formInfo, setFormInfo] = useState({});
-    // use <page1 /> and <page2 /> 
+    // use <page1 /> and <page2 /> refer to init function in login.jsx
+    const [raceInfo, setRaceInfo] = useState({});
+    const [classInfo, setClassInfo] = useState({});
+    const [backgroundInfo, setBackgroundInfo] = useState({});
 
 
     const classNodes = classDataset["results"].map(classes => {
@@ -110,14 +131,6 @@ const CharForm = (props) => {
     const backgroundNodes = backgroundDataset["results"].map(bkgrnd => {
         return(
             <option key={bkgrnd.name} value={bkgrnd.name}>{bkgrnd.name}</option>
-        );
-    });
-    const skillNodes = skillDataset["results"].map(skills => {
-        return(
-            <div key={skills.index}>
-                <input type="checkbox" id="skillSelect" name={skills.name} value={skills.index}/>
-                <label htmlFor={skills.name}>{skills.name}</label>
-            </div>
         );
     });
     const spellNodes = spellDataset["results"].map(spells => {
@@ -142,20 +155,27 @@ const CharForm = (props) => {
             <input id="charName" type="text" name="name" placeholder="Character Name" />
             <label htmlFor="age">Age: </label>
             <input id="charAge" type="number" min="0" name="age" placeholder='age' />
-            <select name="Class dropdown" id="ClassDropdownMenu">
-                {classNodes}
-            </select>
             <label htmlFor="level">Level: </label>
             <input id="charLevel" type="number" min="1" max="20" name="level" placeholder='level' />
+            <select name="Class dropdown" id="ClassDropdownMenu" onChange={setClassInfo(e.target.value)}>
+                {classNodes}
+            </select>
+            <select name="Subclass dropdown" id="SubclassDropdownMenu">
+                {}
+            </select>
             <label htmlFor="dropdownSelect">Race: </label>
-            <select name="Race dropdown" id="RaceDropdownMenu">
+            <select name="Race dropdown" id="RaceDropdownMenu" onChange={setRaceInfo(e.target.value)}>
                 {raceNodes}
             </select>
-            <select name="Background dropdown" id="BackgroundDropdownMenu">
+            <select name="Background dropdown" id="BackgroundDropdownMenu" onChange={setBackgroundInfo(e.target.value)}>
                 {backgroundNodes}
             </select>
-            <h3>Skill Proficiencies</h3>
-            {skillNodes}
+            if(!raceInfo || !classInfo || !backgroundInfo){
+                <div>
+                    <h3>Skill Proficiencies</h3>
+                    <SkillInfo race={raceInfo} bkgrnd={backgroundInfo} dnd5eClass={classInfo} />
+                </div>
+            }
 
             <input className="makeCharSubmit" type="submit" value="Make Char" />
         </form>
