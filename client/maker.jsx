@@ -10,6 +10,7 @@ const raceDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/races/")
 const backgroundDataset = JSON.parse(await fetch("https://api.open5e.com/backgrounds/"));
 const spellDataset = JSON.parse(await fetch("https://api.open5e.com/spells/"));
 const skillDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/skills"));
+const classDataset = JSON.parse(await fetch("https://api.open5e.com/classes/"));
 
 const handleDomo = (e, onDomoAdded) => {
     e.preventDefault();
@@ -95,6 +96,12 @@ const CharForm = (props) => {
     const [formInfo, setFormInfo] = useState({});
     // use <page1 /> and <page2 /> 
 
+
+    const classNodes = classDataset["results"].map(classes => {
+        return(
+            <option key={classes.name} value={classes.name}>{classes.name}</option>
+        );
+    });
     const raceNodes = raceDataset["results"].map(races => {
         return(
             <option key={races.index} value={races.index}>{races.name}</option>
@@ -135,6 +142,9 @@ const CharForm = (props) => {
             <input id="charName" type="text" name="name" placeholder="Character Name" />
             <label htmlFor="age">Age: </label>
             <input id="charAge" type="number" min="0" name="age" placeholder='age' />
+            <select name="Class dropdown" id="ClassDropdownMenu">
+                {classNodes}
+            </select>
             <label htmlFor="level">Level: </label>
             <input id="charLevel" type="number" min="1" max="20" name="level" placeholder='level' />
             <label htmlFor="dropdownSelect">Race: </label>
