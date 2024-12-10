@@ -7,51 +7,35 @@ const { select } = require('underscore');
 const apiURL = "https://www.dnd5eapi.co";
 const open5eURL = "https://api.open5e.com/";
 
-const raceDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/races/"));
+const raceList = JSON.parse(await fetch("https://www.dnd5eapi.co/api/races/"));
+const raceDataset = JSON.parse(await fetch("https://api.open5e.com/races/"));
 const backgroundDataset = JSON.parse(await fetch("https://api.open5e.com/backgrounds/"));
 const spellDataset = JSON.parse(await fetch("https://api.open5e.com/spells/"));
 const skillDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/skills"));
 const classDataset = JSON.parse(await fetch("https://api.open5e.com/classes/"));
 
-const handleDomo = (e, onDomoAdded) => {
-    e.preventDefault();
-    helper.hideError();
-
-    const name = e.target.querySelector('#domoName').value;
-    const age = e.target.querySelector('#domoAge').value;
-    const power = e.target.querySelector('#domoPower').value;
-
-    if(!name || !age || !power) {
-        helper.handleError('All fields are required!');
-        return false;
+for(let i=0; i < raceDataset.resilts.length(); i){
+    let isPresent = false;
+    for(let j=0; j < raceList.length(); j++){
+        if(raceDataset.results[i].slug.includes(raceList.results[j].index)){
+            isPresent = true;
+        }
     }
-
-    helper.sendPost(e.target.action, { name, age, power }, onDomoAdded);
-    return false;
-};
-
-const handleRemove = (e, onDomoRemoved) => {
-    e.preventDefault();
-    helper.hideError();
-
-    const name = e.target.querySelector("#domoName").value;
-
-    if(!name) {
-        helper.handleError('Name field is required!');
-        return false;
+    if(isPresent){
+        i++;
     }
-
-    helper.sendPost(e.target.action, { name }, onDomoRemoved);
-    return false;
-};
+    else{
+        raceDataset.results.splice(i,i);
+    }
+}
 
 const handleCharacter = (e, onCharAdded) => {
     e.preventDefault();
     helper.hideError();
 
-    const name = e.target.querySelector('#domoName').value;
-    const age = e.target.querySelector('#domoAge').value;
-    const power = e.target.querySelector('#domoPower').value;
+    const name = e.target.querySelector('#charName').value;
+    const age = e.target.querySelector('#charAge').value;
+    const power = e.target.querySelector('#charPower').value;
 
     if(!name || !age || !power) {
         helper.handleError('All fields are required!');
@@ -95,18 +79,45 @@ const DropdownInFormExample = (props) => {
 
 const SkillInfo = (props) => {
     //variables: race, bkgrnd, dnd5eClass
+    let hasClass = 0;
+    let hasRace = 0;
+    let hasBackground = 0;
+
+    for(let i=0; i < raceDataset.results.length(); i++){
+        if(raceDataset.results[i].name == props.race){
+            hasRace = i+1;
+        }
+    }
+    for(let i=0; i < classDataset.results.length(); i++){
+        if(classDataset.results[i].name == props.dnd5eClass){
+            hasClass = i+1;
+        }
+    }
+    for(let i=0; i < backgroundDataset.results.length(); i++){
+        if(classDataset.results[i].name == props.bkgrnd){
+            hasBackground = i+1;
+        }
+    }
+
     const skillNodes = skillDataset["results"].map(skills => {
-        if(props.dnd5eClass.prof_skills.includes(skills.name) || props.race.prof_skills.includes(skills.name) || props.bkgrnd.prof_skills.includes(skills.name)){
-            return(
-                <div key={skills.index}>
-                    <input type="checkbox" id="skillSelect" name={skills.name} value={skills.index}/>
-                    <label htmlFor={skills.name}>{skills.name}</label>
-                </div>
-            );
+        if( hasClass > 0 || hasRace > 0 || hasBackground > 0 ){
+            if(
+            raceDataset.results[hasRace - 1].traits.include(skills.name) || //race specific skills
+            raceDataset.results[hasRace - 1].traits.include("of your choice") || //race says choice of any
+            classDataset.results[hasClass - 1].prof_skills.includes(skills.name) || //class specific skills
+            backgroundDataset.results[hasBackground - 1].skill_proficiencies.includes(skills.name) //background skills
+            ){
+                return(
+                    <div key={skills.index}>
+                        <input type="checkbox" id="skillSelect" name={skills.name} value={skills.index}/>
+                        <label htmlFor={skills.name}>{skills.name}</label>
+                    </div>
+                );
+            }
         }
     });
     return(
-        
+        {skillNodes}
     );
 };
 
