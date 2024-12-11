@@ -25,6 +25,7 @@ const makeCharacter = async (req, res) => {
       int: req.body.int,
       wis: req.body.wis,
       cha: req.body.cha,
+      proficiencies: document.proficiencies,
       owner: req.session.account._id,
     };
   
