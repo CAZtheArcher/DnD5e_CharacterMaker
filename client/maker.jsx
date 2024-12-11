@@ -138,6 +138,42 @@ const SkillInfo = (props) => {
     );
 };
 
+const Stat4d6 = (props) => {
+    return(
+
+    );
+};
+
+const StatPointBuy = (props) => {
+    return(
+
+    );
+};
+
+const StatStandardArray = (props) => {
+    return(
+
+    );
+};
+
+const renderStatSwitch = (params) => {
+
+    switch(params){
+        case "4d6":
+            return(<Stat4d6 />);
+            break;
+        case "pointBuy":
+            return(<StatPointBuy />);
+            break;
+        case "standardArray":
+            return(<StatStandardArray />);
+            break;
+        default:
+            return(<Stat4d6 />);
+            break;
+    }
+};
+
 const CharForm = (props) => {
     const [formInfo, setFormInfo] = useState({});
     // use <page1 /> and <page2 /> refer to init function in login.jsx
@@ -207,20 +243,7 @@ const CharForm = (props) => {
                 <option value="pointBuy"> Point Buy</option>
                 <option value="standardArray">Standard Array</option>
             </select>
-            switch(statInfo){
-                case "4d6":
-                    <Stat4d6 />
-                    break;
-                case "pointBuy":
-                    <StatPointBuy />
-                    break;
-                case "standardArray":
-                    <StatStandardArray />
-                    break;
-                default:
-                    break;
-            }
-
+            { renderStatSwitch(statInfo) }
             <input className="makeCharSubmit" type="submit" value="Make Char" />
         </form>
     );
