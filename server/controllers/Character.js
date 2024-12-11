@@ -5,7 +5,7 @@ const Char = models.Character;
 const makerPage = async (req, res) => res.render('app');
 
 const makeCharacter = async (req, res) => {
-    if (!req.body.name || !req.body.age || !req.body.level || !req.body.race || !req.body.class|| !req.body.background) {
+    if (!req.body.name || !req.body.age || !req.body.level || !req.body.race || !req.body.class || !req.body.background) {
       return res.status(400).json({ error: 'Name, age, race, class, background, and level are all required!' });
     }
     if (!req.body.statGenMethod) {
@@ -19,6 +19,12 @@ const makeCharacter = async (req, res) => {
       race: req.body.race,
       class: req.body.class,
       background: req.body.background,
+      str: req.body.str,
+      dex: req.body.dex,
+      con: req.body.con,
+      int: req.body.int,
+      wis: req.body.wis,
+      cha: req.body.cha,
       owner: req.session.account._id,
     };
   
