@@ -99,12 +99,17 @@ const CharacterSchema = new mongoose.Schema({
 CharacterSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   age: doc.age,
+  race: doc.race,
+  level: doc.level,
+  class: doc.class,
+  background: doc.background,
   str: doc.str,
   dex: doc.dex,
   con: doc.con,
   wis: doc.wis,
   int: doc.int,
   cha: doc.cha,
+  proficiencies: doc.proficiencies,
 });
 
 const CharacterModel = mongoose.model('Character', CharacterSchema);
