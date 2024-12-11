@@ -36,9 +36,9 @@ const handleCharacter = (e, onCharAdded) => {
     const name = e.target.querySelector('#charName').value;
     const age = e.target.querySelector('#charAge').value;
     const level = e.target.querySelector('#charLevel').value;
-    const dnd5eClass = e.target.querySelector('#charLevel').value;
-    const race = e.target.querySelector('#charLevel').value;
-    const background = e.target.querySelector('#charLevel').value;
+    const dnd5eClass = e.target.querySelector('#charClass').value;
+    const race = e.target.querySelector('#charRace').value;
+    const background = e.target.querySelector('#charBackground').value;
     const str = e.target.querySelector('#charLevel').value;
     const dex = e.target.querySelector('#charLevel').value;
     const con = e.target.querySelector('#charLevel').value;
@@ -144,6 +144,7 @@ const CharForm = (props) => {
     const [raceInfo, setRaceInfo] = useState({});
     const [classInfo, setClassInfo] = useState({});
     const [backgroundInfo, setBackgroundInfo] = useState({});
+    const [statInfo, setStatInfo] = useState({});
 
 
     const classNodes = classDataset["results"].map(classes => {
@@ -185,21 +186,39 @@ const CharForm = (props) => {
             <input id="charAge" type="number" min="0" name="age" placeholder='age' />
             <label htmlFor="level">Level: </label>
             <input id="charLevel" type="number" min="1" max="20" name="level" placeholder='level' />
-            <select name="Class dropdown" id="ClassDropdownMenu" onChange={setClassInfo(e.target.value)}>
+            <select name="Class dropdown" id="charClass" onChange={setClassInfo(e.target.value)}>
                 {classNodes}
             </select>
             <label htmlFor="dropdownSelect">Race: </label>
-            <select name="Race dropdown" id="RaceDropdownMenu" onChange={setRaceInfo(e.target.value)}>
+            <select name="Race dropdown" id="charRace" onChange={setRaceInfo(e.target.value)}>
                 {raceNodes}
             </select>
-            <select name="Background dropdown" id="BackgroundDropdownMenu" onChange={setBackgroundInfo(e.target.value)}>
+            <select name="Background dropdown" id="charBackground" onChange={setBackgroundInfo(e.target.value)}>
                 {backgroundNodes}
             </select>
-            if(!raceInfo || !classInfo || !backgroundInfo){
+            if(raceInfo || classInfo || backgroundInfo){
                 <div>
                     <h3>Skill Proficiencies</h3>
                     <SkillInfo race={raceInfo} bkgrnd={backgroundInfo} dnd5eClass={classInfo} />
                 </div>
+            }
+            <select name="StatRoll" id="StatSelect" onChange={setStatInfo(e.target.value)}>
+                <option value="4d6">4d6 Drop Lowest</option>
+                <option value="pointBuy"> Point Buy</option>
+                <option value="standardArray">Standard Array</option>
+            </select>
+            switch(statInfo){
+                case "4d6":
+                    <Stat4d6 />
+                    break;
+                case "pointBuy":
+                    <StatPointBuy />
+                    break;
+                case "standardArray":
+                    <StatStandardArray />
+                    break;
+                default:
+                    break;
             }
 
             <input className="makeCharSubmit" type="submit" value="Make Char" />
