@@ -265,12 +265,23 @@ const StatPointBuy = (props) => {
         <div>
             <div>
                 <h4 id='stat1'>{stats[0]}</h4>
-                <button onClick={}></button>
+                <button onClick={increaseStat(0)}>+</button>
+                <button onClick={decreaseStat(0)}>-</button>
                 <h4 id='stat2'>{stats[1]}</h4>
+                <button onClick={increaseStat(1)}>+</button>
+                <button onClick={decreaseStat(1)}>-</button>
                 <h4 id='stat3'>{stats[2]}</h4>
+                <button onClick={increaseStat(2)}>+</button>
+                <button onClick={decreaseStat(2)}>-</button>
                 <h4 id='stat4'>{stats[3]}</h4>
+                <button onClick={increaseStat(3)}>+</button>
+                <button onClick={decreaseStat(3)}>-</button>
                 <h4 id='stat5'>{stats[4]}</h4>
+                <button onClick={increaseStat(4)}>+</button>
+                <button onClick={decreaseStat(4)}>-</button>
                 <h4 id='stat6'>{stats[5]}</h4>
+                <button onClick={increaseStat(5)}>+</button>
+                <button onClick={decreaseStat(5)}>-</button>
             </div>
             {StatSelection}
         </div>
