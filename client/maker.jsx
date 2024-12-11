@@ -7,13 +7,6 @@ const { select } = require('underscore');
 const apiURL = "https://www.dnd5eapi.co";
 const open5eURL = "https://api.open5e.com/";
 
-const raceList = JSON.parse(await fetch("https://www.dnd5eapi.co/api/races/"));
-const raceDataset = JSON.parse(await fetch("https://api.open5e.com/races/"));
-const backgroundDataset = JSON.parse(await fetch("https://api.open5e.com/backgrounds/"));
-const spellDataset = JSON.parse(await fetch("https://api.open5e.com/spells/"));
-const skillDataset = JSON.parse(await fetch("https://www.dnd5eapi.co/api/skills"));
-const classDataset = JSON.parse(await fetch("https://api.open5e.com/classes/"));
-
 for(let i=0; i < raceDataset.resilts.length(); i){
     let isPresent = false;
     for(let j=0; j < raceList.length(); j++){
@@ -62,6 +55,17 @@ const handleCharacter = (e, onCharAdded) => {
     helper.sendPost(e.target.action, { name, age, level, dnd5eClass, race, background, str, dex, con, int, wis, cha }, onCharAdded);
     return false;
 };
+
+const getFromAPI = async (url) => {
+    return JSON.parse(await fetch(url));
+};
+
+const raceList = getFromAPI("https://www.dnd5eapi.co/api/races/");
+const raceDataset = getFromAPI("https://api.open5e.com/races/");
+const backgroundDataset = getFromAPI("https://api.open5e.com/backgrounds/");
+const spellDataset = getFromAPI("https://api.open5e.com/spells/");
+const skillDataset = getFromAPI("https://www.dnd5eapi.co/api/skills");
+const classDataset = getFromAPI("https://api.open5e.com/classes/");
 
 const handleCharRemove = (e, onCharRemoved) => {
     e.preventDefault();
