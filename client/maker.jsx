@@ -35,14 +35,31 @@ const handleCharacter = (e, onCharAdded) => {
 
     const name = e.target.querySelector('#charName').value;
     const age = e.target.querySelector('#charAge').value;
-    const power = e.target.querySelector('#charPower').value;
+    const level = e.target.querySelector('#charLevel').value;
+    const dnd5eClass = e.target.querySelector('#charLevel').value;
+    const race = e.target.querySelector('#charLevel').value;
+    const background = e.target.querySelector('#charLevel').value;
+    const str = e.target.querySelector('#charLevel').value;
+    const dex = e.target.querySelector('#charLevel').value;
+    const con = e.target.querySelector('#charLevel').value;
+    const int = e.target.querySelector('#charLevel').value;
+    const wis = e.target.querySelector('#charLevel').value;
+    const cha = e.target.querySelector('#charLevel').value;
+    const skills = e.target.querySelectorAll('#skillSelect');
+    const proficiencies = [];
+
+    for(let i=0; i < 10; i++){
+        if(skills[i].value = true){
+            proficiencies.add(skills[i].name);
+        }
+    }
 
     if(!name || !age || !power) {
         helper.handleError('All fields are required!');
         return false;
     }
 
-    helper.sendPost(e.target.action, { name, age, power }, onCharAdded);
+    helper.sendPost(e.target.action, { name, age, level, dnd5eClass, race, background, str, dex, con, int, wis, cha }, onCharAdded);
     return false;
 };
 
@@ -170,9 +187,6 @@ const CharForm = (props) => {
             <input id="charLevel" type="number" min="1" max="20" name="level" placeholder='level' />
             <select name="Class dropdown" id="ClassDropdownMenu" onChange={setClassInfo(e.target.value)}>
                 {classNodes}
-            </select>
-            <select name="Subclass dropdown" id="SubclassDropdownMenu">
-                {}
             </select>
             <label htmlFor="dropdownSelect">Race: </label>
             <select name="Race dropdown" id="RaceDropdownMenu" onChange={setRaceInfo(e.target.value)}>
