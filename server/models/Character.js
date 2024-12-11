@@ -70,6 +70,11 @@ const CharacterSchema = new mongoose.Schema({
     min: 0,
     required: true,
   },
+  proficiencies: {
+    type: String[String],
+    required: true,
+    trim: true,
+  },
   spells: {
     type: String[String[String]],
     required: false,
@@ -78,11 +83,6 @@ const CharacterSchema = new mongoose.Schema({
   items: {
     type: String[String],
     required: false,
-    trim: true,
-  },
-  proficiencies: {
-    type: String[String],
-    required: true,
     trim: true,
   },
   owner: {
