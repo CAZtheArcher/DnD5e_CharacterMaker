@@ -18,6 +18,7 @@ const makeCharacter = async (req, res) => {
       level: req.body.level,
       race: req.body.race,
       class: req.body.class,
+      background: req.body.background,
       owner: req.session.account._id,
     };
   
