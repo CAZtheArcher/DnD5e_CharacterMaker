@@ -39,12 +39,12 @@ const handleCharacter = (e, onCharAdded) => {
     const dnd5eClass = e.target.querySelector('#charClass').value;
     const race = e.target.querySelector('#charRace').value;
     const background = e.target.querySelector('#charBackground').value;
-    const str = e.target.querySelector('#charLevel').value;
-    const dex = e.target.querySelector('#charLevel').value;
-    const con = e.target.querySelector('#charLevel').value;
-    const int = e.target.querySelector('#charLevel').value;
-    const wis = e.target.querySelector('#charLevel').value;
-    const cha = e.target.querySelector('#charLevel').value;
+    const str = e.target.querySelector('#strStat').value;
+    const dex = e.target.querySelector('#dexStat').value;
+    const con = e.target.querySelector('#conStat').value;
+    const int = e.target.querySelector('#intStat').value;
+    const wis = e.target.querySelector('#wisStat').value;
+    const cha = e.target.querySelector('#chaStat').value;
     const skills = e.target.querySelectorAll('#skillSelect');
     const proficiencies = [];
 
@@ -138,21 +138,116 @@ const SkillInfo = (props) => {
     );
 };
 
-const Stat4d6 = (props) => {
-    return(
+const D6DiceRoll = () => {
+    let result = [Math.floor(Math.random() * 5) + 1, Math.floor(Math.random() * 5) + 1, Math.floor(Math.random() * 5) + 1, Math.floor(Math.random() * 5) + 1];
+    let least = 50;
+    let leastPosition = 5;
+    for(let i=0; i < 4; i++){
+        if(result[i] < least){
+            least = result[i];
+            leastPosition = i;
+        }
+    }
+    result.splice(leastPosition, leastPosition);
+    return result;
+};
 
+const StatSelection = (props) => {
+    return(
+        <div>
+            <select name="str" id="strStat">
+                <option value="1">Value 1</option>
+                <option value="2">Value 2</option>
+                <option value="3">Value 3</option>
+                <option value="4">Value 4</option>
+                <option value="5">Value 5</option>
+                <option value="6">Value 6</option>
+            </select>
+            <select name="dex" id="dexStat">
+                <option value="1">Value 1</option>
+                <option value="2">Value 2</option>
+                <option value="3">Value 3</option>
+                <option value="4">Value 4</option>
+                <option value="5">Value 5</option>
+                <option value="6">Value 6</option>
+            </select>
+            <select name="con" id="conStat">
+                <option value="1">Value 1</option>
+                <option value="2">Value 2</option>
+                <option value="3">Value 3</option>
+                <option value="4">Value 4</option>
+                <option value="5">Value 5</option>
+                <option value="6">Value 6</option>
+            </select>
+            <select name="int" id="intStat">
+                <option value="1">Value 1</option>
+                <option value="2">Value 2</option>
+                <option value="3">Value 3</option>
+                <option value="4">Value 4</option>
+                <option value="5">Value 5</option>
+                <option value="6">Value 6</option>
+            </select>
+            <select name="wis" id="wisStat">
+                <option value="1">Value 1</option>
+                <option value="2">Value 2</option>
+                <option value="3">Value 3</option>
+                <option value="4">Value 4</option>
+                <option value="5">Value 5</option>
+                <option value="6">Value 6</option>
+            </select>
+            <select name="cha" id="chaStat">
+                <option value="1">Value 1</option>
+                <option value="2">Value 2</option>
+                <option value="3">Value 3</option>
+                <option value="4">Value 4</option>
+                <option value="5">Value 5</option>
+                <option value="6">Value 6</option>
+            </select>
+        </div>
+    );
+}
+
+const StatsDisplay = (stats) => {
+    return(
+        <div>
+            <h4 id='stat1'>{stats[0]}</h4>
+            <h4 id='stat2'>{stats[1]}</h4>
+            <h4 id='stat3'>{stats[2]}</h4>
+            <h4 id='stat4'>{stats[3]}</h4>
+            <h4 id='stat5'>{stats[4]}</h4>
+            <h4 id='stat6'>{stats[5]}</h4>
+        </div>
+    );
+};
+
+const Stat4d6 = (props) => {
+    let stats = [D6DiceRoll, D6DiceRoll, D6DiceRoll, D6DiceRoll, D6DiceRoll, D6DiceRoll];
+    return(
+        <div>
+            {StatsDisplay(stats)}
+            {StatSelection}
+        </div>
     );
 };
 
 const StatPointBuy = (props) => {
+    let stats = [8,8,8,8,8,8];
+    let pointPool = 27;
     return(
-
+        <div>
+            {StatsDisplay(stats)}
+            {StatSelection}
+        </div>
     );
 };
 
 const StatStandardArray = (props) => {
+    let stats = [15,14,13,12,10,8];
     return(
-
+        <div>
+            {StatsDisplay(stats)}
+            {StatSelection}
+        </div>
     );
 };
 
