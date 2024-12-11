@@ -12,6 +12,10 @@
     "test": "echo \"Tests complete\"",
     "heroku-postbuild": "webpack"
   },
+  "engines": {
+    "node": "22.12.0",
+    "npm": "10.9.0"
+  },
   "keywords": [
     "Node",
     "MVC",
