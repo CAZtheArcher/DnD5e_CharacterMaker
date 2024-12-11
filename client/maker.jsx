@@ -233,9 +233,45 @@ const Stat4d6 = (props) => {
 const StatPointBuy = (props) => {
     let stats = [8,8,8,8,8,8];
     let pointPool = 27;
+    const decreaseStat = (statDecrease) => {
+        if(stats[statDecrease] > 13){
+            stats[statDecrease] -= 1;
+            pointPool += 2;
+        }
+        else if(stats[statDecrease] < 9){
+            stats[statDecrease] += 0;
+            pointPool += 0;
+        }
+        else{
+            stats[statDecrease] -= 1;
+            pointPool += 1;
+        }
+    };
+    const increaseStat = (statIncrease) => {
+        if(stats[statIncrease] > 13){
+            stats[statIncrease] += 1;
+            pointPool -= 2;
+        }
+        else if(stats[statIncrease] > 15){
+            stats[statIncrease] += 0;
+            pointPool += 0;
+        }
+        else{
+            stats[statIncrease] += 1;
+            pointPool -= 1;
+        }
+    };
     return(
         <div>
-            {StatsDisplay(stats)}
+            <div>
+                <h4 id='stat1'>{stats[0]}</h4>
+                <button onClick={}></button>
+                <h4 id='stat2'>{stats[1]}</h4>
+                <h4 id='stat3'>{stats[2]}</h4>
+                <h4 id='stat4'>{stats[3]}</h4>
+                <h4 id='stat5'>{stats[4]}</h4>
+                <h4 id='stat6'>{stats[5]}</h4>
+            </div>
             {StatSelection}
         </div>
     );
