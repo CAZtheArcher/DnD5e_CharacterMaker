@@ -5,8 +5,8 @@ const Char = models.Character;
 const makerPage = async (req, res) => res.render('app');
 
 const makeCharacter = async (req, res) => {
-    if (!req.body.name || !req.body.age || !req.body.level || !req.body.race || !req.body.class) {
-      return res.status(400).json({ error: 'Name, age, and race, class, and level are all required!' });
+    if (!req.body.name || !req.body.age || !req.body.level || !req.body.race || !req.body.class|| !req.body.background) {
+      return res.status(400).json({ error: 'Name, age, race, class, background, and level are all required!' });
     }
     if (!req.body.statGenMethod) {
       return res.status(400).json({ error: 'Method for generating stats is required!' });
